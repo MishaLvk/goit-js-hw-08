@@ -9,6 +9,13 @@ const refs = {
 refs.form.addEventListener('submit', onFormSubmit);
 refs.form.addEventListener('input', throttle(onFormInput), 500);
 
+const saveData = JSON.parse(localStorage.getItem('feedback-form-state'));
+
+if (saveData) {
+  refs.email.value = saveData.email;
+  refs.message.value = saveData.message;
+}
+
 function onFormInput() {
   const formData = { email: refs.email.value, message: refs.message.value };
   localStorage.setItem('feedback-form-state', JSON.stringify(formData));
@@ -19,11 +26,4 @@ function onFormSubmit(evt) {
   console.log({ email: refs.email.value, message: refs.message.value });
   localStorage.removeItem('feedback-form-state');
   evt.currentTarget.reset();
-}
-
-const saveData = JSON.parse(localStorage.getItem('feedback-form-state'));
-
-if (saveData) {
-  refs.email.value = saveData.email;
-  refs.message.value = saveData.message;
 }
